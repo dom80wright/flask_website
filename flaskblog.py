@@ -1,7 +1,9 @@
 from flask import Flask, render_template
+from forms import RegistrationForm, LoginForm
+
 app = Flask(__name__)
 
-# routes are what we type into our browser to go to different pages.
+app.config['SECREY_KEY'] = 'b6c0a55db3c0c6823d510f7e36b1b5e6'
 
 posts = [
     {
@@ -20,6 +22,8 @@ posts = [
     }
 ]
 
+# routes are what we type into our browser to go to different pages.
+
 
 @app.route("/")
 @app.route("/home")
@@ -36,6 +40,18 @@ def blogs():
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+@app.route("/register") # register details page
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/login") # login page
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 
 if __name__ == '__main__':
