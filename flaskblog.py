@@ -1,9 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 
-app.config['SECREY_KEY'] = 'b6c0a55db3c0c6823d510f7e36b1b5e6'
+app.config['SECRET_KEY'] = 'b6c0a55db3c0c6823d510f7e36b1b5e6'
 
 posts = [
     {
@@ -28,13 +28,8 @@ posts = [
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home')
+    return render_template('home.html', title='Home', posts=posts)
 # two 'app.routes' decorators used here as we want the home.html page to come up for both addresses.
-
-
-@app.route("/blogs")
-def blogs():
-    return render_template('blogs.html', title='Blogs', posts=posts)
 
 
 @app.route("/about")
@@ -42,17 +37,25 @@ def about():
     return render_template('about.html', title='About')
 
 
-@app.route("/register") # register details page
+@app.route("/register", methods=['GET', 'POST']) # register details page. methods allows people to get and post back.
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit(): # if the form submission was successful.
+        flash("Account created for {}!".format(form.username.data), 'success') # message to be sent to user.
+        return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route("/login") # login page
+@app.route("/login", methods=['GET', 'POST']) # login page
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == 'password':
+            flash('You have been logged in!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
-
 
 if __name__ == '__main__':
     app.run(debug=True)

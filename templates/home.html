@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
+{% block content %}
 
-<head>
-    <h1 style="font-size: 72px">Home</h1>
-</head>
+{% for post in posts %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.author }}</a>
+            <small class="text-muted">{{ post.date_posted }}</small>
+        </div>
+        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+    </div>
+</article>
+{% endfor %}
 
-<body>
-    <h1>HEADING</h1>
-    <h2>Sub Heading</h2>
-    <h3>Sub sub heading</h3>
-
-    <p>Paragraph of text</p>
-
-    <ul>
-        <li>list item 1</li>
-        <li>list item 2</li>
-    </ul>
-
-</body>
-
-</html>
+{% endblock content %}
+<!-- content not needed to specified but helps understanding-->
