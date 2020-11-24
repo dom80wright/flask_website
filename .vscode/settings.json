@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/Users/domwright/.local/share/virtualenvs/flask-1nhPXtND/bin/python"
+    "python.pythonPath": "~/.local/share/virtualenvs/env-6YFclvoE/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
